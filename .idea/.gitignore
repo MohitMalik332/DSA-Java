@@ -9,3 +9,6 @@
 # Compiled files
 *.class
 out/
+/misc.xml
+/modules.xml
+/vcs.xml

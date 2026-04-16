@@ -13,28 +13,39 @@ public class _02_FindAllAnagrams {
     public static List<Integer> findAllAnagrams(String s, String p){
         List<Integer> result = new ArrayList<>();
 
-        for (int i=0; i<=s.length() - p.length(); i++){
-            String str = s.substring(i, i+p.length());
-            int[] arr = new int[26];
+        if (s.length() < p.length()) return result;
+        int[] arr = new int[26];
 
-            for (int j=0; j<p.length(); j++){
-                arr[str.charAt(j) - 'a']++;
-                arr[p.charAt(j) - 'a']--;
+        for (int i=0; i<p.length(); i++){
+            arr[p.charAt(i) - 'a']++;
+        }
+
+        int left = 0, right = 0;
+        int count = p.length();
+
+        while (right < s.length()){
+            // Add right Character
+            if (arr[s.charAt(right) - 'a'] > 0){
+                count--;
             }
+            arr[s.charAt(right) - 'a']--;
+            right++;
 
-            boolean isAnagram = true;
-
-            for (int a : arr){
-                if (a != 0){
-                    isAnagram = false;
-                    break;
+            // When window size equals p
+            if (right - left == p.length()){
+                // Check Anagram
+                if (count == 0){
+                    result.add(left);
                 }
-            }
 
-            if (isAnagram){
-                result.add(i);
-            }
+                // Remove Left Character
+                if (arr[s.charAt(left) - 'a'] >= 0){
+                    count++;
+                }
+                arr[s.charAt(left) - 'a']++;
 
+                left++;
+            }
         }
         return result;
     }
